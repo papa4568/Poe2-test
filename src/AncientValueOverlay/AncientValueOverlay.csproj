@@ -6,9 +6,10 @@
     <UseWindowsForms>true</UseWindowsForms>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>AncientValueOverlay</AssemblyName>
     <AssemblyTitle>Ancient Value Overlay</AssemblyTitle>
     <Product>Ancient Value Overlay</Product>
-    <Description>Clean-room PoE2 reward value overlay.</Description>
+    <Description>Clean-room PoE2 reward value assistant.</Description>
     <Version>0.1.0</Version>
   </PropertyGroup>
 
