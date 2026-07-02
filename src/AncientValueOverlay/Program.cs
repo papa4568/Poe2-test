@@ -1,14 +1,12 @@
-using System;
-using System.Windows.Forms;
-
 namespace AncientValueOverlay;
 
 internal static class Program
 {
-    [STAThread]
+    [System.STAThread]
     private static void Main()
     {
-        ApplicationConfiguration.Initialize();
-        Application.Run(new MainForm());
+        System.Windows.Forms.Application.EnableVisualStyles();
+        System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+        System.Windows.Forms.Application.Run(new MainForm());
     }
 }
