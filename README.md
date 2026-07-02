@@ -16,6 +16,13 @@ This repository is intentionally **not a copy** of `PoeAncientsPriceHelper`. It 
 
 This is the initial repository scaffold. The core architecture is laid out, with domain models and service interfaces ready for implementation.
 
+## Guides
+
+- [Usage guide](docs/usage-guide.md)
+- [Setup](docs/setup.md)
+- [Architecture](docs/architecture.md)
+- [Clean-room notes](docs/legal-clean-room.md)
+
 ## Proposed stack
 
 - .NET 10 Windows desktop app
