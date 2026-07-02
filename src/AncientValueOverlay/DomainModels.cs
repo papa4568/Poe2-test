@@ -1,54 +1,30 @@
 namespace AncientValueOverlay;
 
-public sealed record RewardRead(
-    string RawText,
-    string NormalizedName,
-    int CenterY,
-    int Quantity = 1,
-    decimal Confidence = 1m);
-
-public sealed record PriceEntry(
-    decimal DivineValue,
-    decimal ExaltedValue,
-    bool HasMarketData = true);
-
-public sealed record RewardRow(
-    RewardRead Read,
-    string? MatchedKey,
-    PriceEntry? Price,
-    bool IsExactMatch)
+public sealed record RewardRow(string Name, decimal UnitDivines, int Quantity)
 {
-    public bool HasPrice => Price is { HasMarketData: true };
-    public int Quantity => Math.Max(1, Read.Quantity);
-    public decimal TotalDivines => HasPrice ? Price!.DivineValue * Quantity : 0m;
+    public int SafeQuantity => Math.Max(1, Quantity);
+    public decimal TotalDivines => UnitDivines * SafeQuantity;
+    public bool IsUnknown => UnitDivines <= 0m;
 }
 
-public sealed record PanelAdvice(
-    IReadOnlyList<RewardRow> Rows,
-    RewardRow? BestRow,
-    RewardRow? SecondBestRow,
-    decimal TotalDivines,
-    int UnknownRows)
+public static class ValueAnalyzer
 {
-    public decimal BestGapDivines => BestRow is null || SecondBestRow is null ? 0m : BestRow.TotalDivines - SecondBestRow.TotalDivines;
+    public static RewardRow FindBest(IEnumerable<RewardRow> rows)
+    {
+        return rows
+            .Where(row => !row.IsUnknown)
+            .OrderByDescending(row => row.TotalDivines)
+            .FirstOrDefault()
+            ?? new RewardRow("No priced reward", 0m, 1);
+    }
+
+    public static decimal TotalValue(IEnumerable<RewardRow> rows)
+    {
+        return rows.Where(row => !row.IsUnknown).Sum(row => row.TotalDivines);
+    }
+
+    public static int UnknownCount(IEnumerable<RewardRow> rows)
+    {
+        return rows.Count(row => row.IsUnknown);
+    }
 }
-
-public enum PriceSourceStatus
-{
-    Unknown,
-    Live,
-    CacheOnly,
-    RefreshFailedUsingCache,
-    Failed
-}
-
-public sealed record PriceSourceHealth(
-    PriceSourceStatus Status,
-    DateTimeOffset? LastLiveFetchUtc,
-    DateTimeOffset? LastCacheUtc,
-    int ItemCount,
-    string Message);
-
-public sealed record PriceFetchResult(
-    IReadOnlyDictionary<string, PriceEntry> Prices,
-    PriceSourceHealth Health);
