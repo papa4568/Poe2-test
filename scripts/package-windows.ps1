@@ -16,8 +16,7 @@ if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
 New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
 New-Item -ItemType Directory -Force -Path "artifacts" | Out-Null
 
-dotnet restore AncientValueOverlay.sln
-dotnet test AncientValueOverlay.sln --configuration $Configuration --no-restore
+dotnet restore $project
 dotnet publish $project `
     --configuration $Configuration `
     --runtime $Runtime `
