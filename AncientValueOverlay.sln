@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AncientValueOverlay", "src\AncientValueOverlay\AncientValueOverlay.csproj", "{DDF64A3A-542A-4D72-9B7E-4693F33D84BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AncientValueOverlay.Tests", "src\AncientValueOverlay.Tests\AncientValueOverlay.Tests.csproj", "{9F1B7B70-8E72-4B74-8F7B-2780B1E8C041}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DDF64A3A-542A-4D72-9B7E-4693F33D84BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDF64A3A-542A-4D72-9B7E-4693F33D84BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDF64A3A-542A-4D72-9B7E-4693F33D84BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDF64A3A-542A-4D72-9B7E-4693F33D84BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F1B7B70-8E72-4B74-8F7B-2780B1E8C041}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F1B7B70-8E72-4B74-8F7B-2780B1E8C041}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F1B7B70-8E72-4B74-8F7B-2780B1E8C041}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F1B7B70-8E72-4B74-8F7B-2780B1E8C041}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
