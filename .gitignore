@@ -1,0 +1,26 @@
+# Build output
+bin/
+obj/
+out/
+publish/
+artifacts/
+TestResults/
+
+# User/local settings
+*.user
+*.suo
+.vs/
+.vscode/
+.idea/
+
+# Runtime output
+*.log
+*.tmp
+scan_log.txt
+debug_ocr.png
+cache/
+config.local.json
+
+# OS files
+.DS_Store
+Thumbs.db
