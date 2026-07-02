@@ -2,18 +2,19 @@ namespace AncientValueOverlay;
 
 public sealed class SessionStats
 {
-    private readonly List<PanelAdvice> _panels = [];
+    private readonly List<RewardRow> _seenRows = [];
 
-    public IReadOnlyList<PanelAdvice> Panels => _panels;
-    public int PanelCount => _panels.Count;
-    public decimal TotalSeenDivines => _panels.Sum(p => p.TotalDivines);
-    public RewardRow? BestSeen => _panels.Select(p => p.BestRow).Where(r => r is not null).OrderByDescending(r => r!.TotalDivines).FirstOrDefault();
+    public int RowCount => _seenRows.Count;
+    public decimal TotalSeenDivines => ValueAnalyzer.TotalValue(_seenRows);
+    public RewardRow BestSeen => ValueAnalyzer.FindBest(_seenRows);
 
-    public void Record(PanelAdvice advice)
+    public void Record(IEnumerable<RewardRow> rows)
     {
-        if (advice.Rows.Count == 0) return;
-        _panels.Add(advice);
+        _seenRows.AddRange(rows);
     }
 
-    public void Reset() => _panels.Clear();
+    public void Reset()
+    {
+        _seenRows.Clear();
+    }
 }
