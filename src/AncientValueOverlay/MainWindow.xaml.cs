@@ -1,11 +1,5 @@
-using System.Windows;
-
 namespace AncientValueOverlay;
 
-public partial class MainWindow : Window
+internal static class LegacyWindowFile
 {
-    public MainWindow()
-    {
-        InitializeComponent();
-    }
 }
