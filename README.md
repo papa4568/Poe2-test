@@ -16,8 +16,19 @@ This repository is intentionally **not a copy** of `PoeAncientsPriceHelper`. It 
 
 This is the initial repository scaffold. The core architecture is laid out, with domain models and service interfaces ready for implementation.
 
+## Simple executable
+
+Use the Windows packaging workflow or local script to produce:
+
+```text
+AncientValueOverlay.exe
+```
+
+See [Executable guide](docs/executable-guide.md).
+
 ## Guides
 
+- [Executable guide](docs/executable-guide.md)
 - [Usage guide](docs/usage-guide.md)
 - [Setup](docs/setup.md)
 - [Architecture](docs/architecture.md)
@@ -48,6 +59,19 @@ scripts/                         Repo creation and push helpers
 dotnet restore
 dotnet build
 dotnet test
+```
+
+## Package for Windows
+
+```powershell
+./scripts/package-windows.ps1
+```
+
+Output:
+
+```text
+artifacts/win-x64/AncientValueOverlay.exe
+artifacts/AncientValueOverlay-win-x64.zip
 ```
 
 On non-Windows systems, the Windows desktop target may not build fully. CI is configured to run on `windows-latest`.
