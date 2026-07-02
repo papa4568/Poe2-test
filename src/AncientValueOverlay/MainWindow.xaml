@@ -1,0 +1,13 @@
+<Window x:Class="AncientValueOverlay.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ancient Value Overlay" Height="420" Width="560">
+    <Grid Margin="22">
+        <StackPanel>
+            <TextBlock Text="Ancient Value Overlay" FontSize="24" FontWeight="SemiBold" />
+            <TextBlock Margin="0,10,0,20" TextWrapping="Wrap" Text="Clean-room PoE2 reward value assistant scaffold." />
+            <Button Content="Calibrate" Width="110" IsEnabled="False" />
+            <Button Content="Start" Width="110" IsEnabled="False" Margin="0,8,0,0" />
+        </StackPanel>
+    </Grid>
+</Window>
