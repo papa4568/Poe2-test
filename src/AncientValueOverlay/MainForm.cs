@@ -114,7 +114,7 @@ public sealed class MainForm : Form
 
         var badge = new Label
         {
-            Text = "BETA 0.3",
+            Text = "BETA 0.4",
             AutoSize = true,
             BackColor = Primary,
             ForeColor = Color.White,
@@ -167,7 +167,13 @@ public sealed class MainForm : Form
         _tabs.DrawItem += DrawTab;
         _tabs.SelectedIndexChanged += (_, _) =>
         {
-            SetStatus(_tabs.SelectedIndex == 1 ? "Build Lab active" : "Value Lab active", Primary);
+            var status = _tabs.SelectedIndex switch
+            {
+                1 => "Build Lab active",
+                2 => "Skill Simulator active",
+                _ => "Value Lab active"
+            };
+            SetStatus(status, Primary);
             _tabs.Invalidate();
         };
 
@@ -187,8 +193,17 @@ public sealed class MainForm : Form
         };
         buildPage.Controls.Add(new BuildLabControl());
 
+        var skillPage = new TabPage("Skill Simulator")
+        {
+            BackColor = Background,
+            ForeColor = Color.White,
+            Padding = new Padding(0, 10, 0, 0)
+        };
+        skillPage.Controls.Add(new SkillSimulatorControl());
+
         _tabs.TabPages.Add(valuePage);
         _tabs.TabPages.Add(buildPage);
+        _tabs.TabPages.Add(skillPage);
         return _tabs;
     }
 
@@ -262,6 +277,10 @@ public sealed class MainForm : Form
         buildButton.Click += (_, _) => _tabs.SelectedIndex = 1;
         _toolTip.SetToolTip(buildButton, "Open class/build planner (Ctrl+B)");
 
+        var skillButton = CreateButton("Skill Simulator", false, 130);
+        skillButton.Click += (_, _) => _tabs.SelectedIndex = 2;
+        _toolTip.SetToolTip(skillButton, "Open normalized gear/support simulator (Ctrl+G)");
+
         var clearButton = CreateButton("Clear Activity", false, 120);
         clearButton.Click += (_, _) => ClearActivity();
         _toolTip.SetToolTip(clearButton, "Clear the activity panel (Ctrl+L)");
@@ -270,6 +289,7 @@ public sealed class MainForm : Form
         actions.Controls.Add(copyButton);
         actions.Controls.Add(resetButton);
         actions.Controls.Add(buildButton);
+        actions.Controls.Add(skillButton);
         actions.Controls.Add(clearButton);
 
         return actions;
@@ -317,7 +337,7 @@ public sealed class MainForm : Form
     {
         return new Label
         {
-            Text = "Shortcuts: Ctrl+Enter value check · Ctrl+B Build Lab · Ctrl+Shift+C copy · Ctrl+L clear",
+            Text = "Shortcuts: Ctrl+Enter value check · Ctrl+B Build Lab · Ctrl+G Skill Simulator · Ctrl+Shift+C copy · Ctrl+L clear",
             Dock = DockStyle.Fill,
             ForeColor = Muted,
             Font = new Font("Segoe UI", 8.5F),
@@ -495,6 +515,13 @@ public sealed class MainForm : Form
         if (e.Control && e.KeyCode == Keys.B)
         {
             _tabs.SelectedIndex = 1;
+            e.SuppressKeyPress = true;
+            return;
+        }
+
+        if (e.Control && e.KeyCode == Keys.G)
+        {
+            _tabs.SelectedIndex = 2;
             e.SuppressKeyPress = true;
             return;
         }
