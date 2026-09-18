@@ -1,19 +1,36 @@
 # Ancient Value Overlay
 
-A Windows desktop PoE2 reward-value helper currently in beta.
+A Windows desktop PoE2 reward-value helper and build interaction lab currently in beta.
 
-## Beta 0.2 highlights
+## Beta 0.3 — Build / Classes patch
 
-- Responsive dark dashboard instead of the fixed starter layout.
+The new **Build Lab** models the parts of PoE2 buildcraft that most strongly change how a skill behaves:
+
+- Current eight-class Early Access roster with 22 Ascendancies represented.
+- Class identity is guidance, not a hard skill lock.
+- Representative weapon-gated skills for bows, crossbows, quarterstaves, spears, shields and melee martial weapons.
+- Two weapon sets, so a skill can become usable from either set.
+- Item-granted inherent skill examples such as Mana Drain, Sigil of Power, Consecrate and Fulmination.
+- Talisman-style shapeshift basic attack support.
+- Support-socket planning from 2 to 5 sockets per skill.
+- Starter presets for every class.
+- Gear mismatch explanations that identify the actual weapon requirement instead of blaming the selected class.
+- Tests for the class roster, weapon-set fallback, gear-granted skills and support-socket bounds.
+
+The Build Lab is intentionally a build-planning model rather than a full Path of Building replacement. It focuses on explaining **why** a class/skill/gear combination works and which part of the loadout changes the skill.
+
+## Beta 0.2 — UI foundation
+
+- Responsive dark dashboard.
 - Session cards for best reward, total value, rows checked, and unknown rows.
 - Activity history that appends results instead of replacing them.
-- Copy, reset, clear, and next-step actions.
+- Copy, reset and clear actions.
 - Keyboard shortcuts:
   - `Ctrl+Enter`: run the demo value check.
-  - `Ctrl+Shift+C`: copy the latest summary.
+  - `Ctrl+B`: open Build Lab.
+  - `Ctrl+Shift+C`: copy the latest value summary.
   - `Ctrl+L`: clear activity.
-  - `F1`: show next development steps.
-- CI now runs the test suite before packaging the Windows beta.
+- CI runs the test suite before packaging the Windows beta.
 
 ## Build the app
 

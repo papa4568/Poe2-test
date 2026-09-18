@@ -25,6 +25,7 @@ public sealed class MainForm : Form
     private readonly Label _unknownCountLabel = new();
     private readonly RichTextBox _activityBox = new();
     private readonly ToolTip _toolTip = new();
+    private readonly TabControl _tabs = new();
 
     private string _latestSummary = "Run a demo value check to create a summary.";
 
@@ -32,8 +33,8 @@ public sealed class MainForm : Form
     {
         Text = "Ancient Value Overlay";
         StartPosition = FormStartPosition.CenterScreen;
-        MinimumSize = new Size(860, 620);
-        Size = new Size(1020, 720);
+        MinimumSize = new Size(960, 680);
+        Size = new Size(1160, 780);
         BackColor = Background;
         ForeColor = Color.White;
         Font = new Font("Segoe UI", 10F);
@@ -44,8 +45,8 @@ public sealed class MainForm : Form
         KeyDown += OnMainFormKeyDown;
 
         UpdateStats(0);
-        SetStatus("Ready for beta testing", Success);
-        AppendActivity("Ready", "Use Run Demo Value Check to exercise the current value-analysis flow.");
+        SetStatus("Ready · Value Lab + Build Lab", Success);
+        AppendActivity("Ready", "Value checks and the PoE2-inspired build/class planner are available.");
     }
 
     private Control BuildRootLayout()
@@ -56,23 +57,19 @@ public sealed class MainForm : Form
             BackColor = Background,
             Padding = new Padding(24),
             ColumnCount = 1,
-            RowCount = 6
+            RowCount = 4
         };
 
         root.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         root.RowStyles.Add(new RowStyle(SizeType.Absolute, 88F));
         root.RowStyles.Add(new RowStyle(SizeType.Absolute, 48F));
-        root.RowStyles.Add(new RowStyle(SizeType.Absolute, 118F));
-        root.RowStyles.Add(new RowStyle(SizeType.Absolute, 62F));
         root.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
         root.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
 
         root.Controls.Add(BuildHeader(), 0, 0);
         root.Controls.Add(BuildStatusBar(), 0, 1);
-        root.Controls.Add(BuildStatsGrid(), 0, 2);
-        root.Controls.Add(BuildActionBar(), 0, 3);
-        root.Controls.Add(BuildActivityPanel(), 0, 4);
-        root.Controls.Add(BuildShortcutLabel(), 0, 5);
+        root.Controls.Add(BuildTabs(), 0, 2);
+        root.Controls.Add(BuildShortcutLabel(), 0, 3);
 
         return root;
     }
@@ -105,7 +102,7 @@ public sealed class MainForm : Form
 
         var subtitle = new Label
         {
-            Text = "PoE2 reward value helper · fast feedback, clean session view",
+            Text = "PoE2 value helper + class, skill and gear interaction lab",
             AutoSize = true,
             Font = new Font("Segoe UI", 10F),
             ForeColor = Muted,
@@ -117,7 +114,7 @@ public sealed class MainForm : Form
 
         var badge = new Label
         {
-            Text = "BETA 0.2",
+            Text = "BETA 0.3",
             AutoSize = true,
             BackColor = Primary,
             ForeColor = Color.White,
@@ -157,6 +154,63 @@ public sealed class MainForm : Form
         panel.Controls.Add(_statusDot, 0, 0);
         panel.Controls.Add(_statusLabel, 1, 0);
         return panel;
+    }
+
+    private Control BuildTabs()
+    {
+        _tabs.Dock = DockStyle.Fill;
+        _tabs.DrawMode = TabDrawMode.OwnerDrawFixed;
+        _tabs.SizeMode = TabSizeMode.Fixed;
+        _tabs.ItemSize = new Size(150, 34);
+        _tabs.Padding = new Point(16, 5);
+        _tabs.Margin = Padding.Empty;
+        _tabs.DrawItem += DrawTab;
+        _tabs.SelectedIndexChanged += (_, _) =>
+        {
+            SetStatus(_tabs.SelectedIndex == 1 ? "Build Lab active" : "Value Lab active", Primary);
+            _tabs.Invalidate();
+        };
+
+        var valuePage = new TabPage("Value Lab")
+        {
+            BackColor = Background,
+            ForeColor = Color.White,
+            Padding = new Padding(0, 10, 0, 0)
+        };
+        valuePage.Controls.Add(BuildValueDashboard());
+
+        var buildPage = new TabPage("Build Lab")
+        {
+            BackColor = Background,
+            ForeColor = Color.White,
+            Padding = new Padding(0, 10, 0, 0)
+        };
+        buildPage.Controls.Add(new BuildLabControl());
+
+        _tabs.TabPages.Add(valuePage);
+        _tabs.TabPages.Add(buildPage);
+        return _tabs;
+    }
+
+    private Control BuildValueDashboard()
+    {
+        var dashboard = new TableLayoutPanel
+        {
+            Dock = DockStyle.Fill,
+            BackColor = Background,
+            ColumnCount = 1,
+            RowCount = 3,
+            Margin = Padding.Empty
+        };
+
+        dashboard.RowStyles.Add(new RowStyle(SizeType.Absolute, 118F));
+        dashboard.RowStyles.Add(new RowStyle(SizeType.Absolute, 62F));
+        dashboard.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+
+        dashboard.Controls.Add(BuildStatsGrid(), 0, 0);
+        dashboard.Controls.Add(BuildActionBar(), 0, 1);
+        dashboard.Controls.Add(BuildActivityPanel(), 0, 2);
+        return dashboard;
     }
 
     private Control BuildStatsGrid()
@@ -204,9 +258,9 @@ public sealed class MainForm : Form
         var resetButton = CreateButton("Reset Session", false, 130);
         resetButton.Click += (_, _) => ResetSession();
 
-        var nextButton = CreateButton("Next Steps", false, 115);
-        nextButton.Click += (_, _) => ShowNextSteps();
-        _toolTip.SetToolTip(nextButton, "Show the planned development path (F1)");
+        var buildButton = CreateButton("Open Build Lab", false, 135);
+        buildButton.Click += (_, _) => _tabs.SelectedIndex = 1;
+        _toolTip.SetToolTip(buildButton, "Open class/build planner (Ctrl+B)");
 
         var clearButton = CreateButton("Clear Activity", false, 120);
         clearButton.Click += (_, _) => ClearActivity();
@@ -215,7 +269,7 @@ public sealed class MainForm : Form
         actions.Controls.Add(runButton);
         actions.Controls.Add(copyButton);
         actions.Controls.Add(resetButton);
-        actions.Controls.Add(nextButton);
+        actions.Controls.Add(buildButton);
         actions.Controls.Add(clearButton);
 
         return actions;
@@ -263,7 +317,7 @@ public sealed class MainForm : Form
     {
         return new Label
         {
-            Text = "Shortcuts: Ctrl+Enter run · Ctrl+Shift+C copy · Ctrl+L clear · F1 next steps",
+            Text = "Shortcuts: Ctrl+Enter value check · Ctrl+B Build Lab · Ctrl+Shift+C copy · Ctrl+L clear",
             Dock = DockStyle.Fill,
             ForeColor = Muted,
             Font = new Font("Segoe UI", 8.5F),
@@ -328,6 +382,8 @@ public sealed class MainForm : Form
 
     private void RunDemoValueCheck()
     {
+        _tabs.SelectedIndex = 0;
+
         var rows = new[]
         {
             new RewardRow("Divine Orb", 1.00m, 1),
@@ -350,7 +406,7 @@ public sealed class MainForm : Form
         try
         {
             Clipboard.SetText(_latestSummary);
-            SetStatus("Summary copied to clipboard", Success);
+            SetStatus("Value summary copied to clipboard", Success);
             AppendActivity("Copied", _latestSummary);
         }
         catch (Exception ex)
@@ -365,18 +421,8 @@ public sealed class MainForm : Form
         _sessionStats.Reset();
         _latestSummary = "Run a demo value check to create a summary.";
         UpdateStats(0);
-        SetStatus("Session reset", Success);
+        SetStatus("Value session reset", Success);
         AppendActivity("Session reset", "Session totals and best reward were cleared.");
-    }
-
-    private void ShowNextSteps()
-    {
-        const string nextSteps =
-            "1. Load a manual price file.  2. Add live price refresh with cache fallback.  " +
-            "3. Add calibration.  4. Add the transparent in-game overlay after the data path is stable.";
-
-        SetStatus("Development path shown", Primary);
-        AppendActivity("Next steps", nextSteps);
     }
 
     private void ClearActivity()
@@ -420,11 +466,35 @@ public sealed class MainForm : Form
         _activityBox.ScrollToCaret();
     }
 
+    private void DrawTab(object? sender, DrawItemEventArgs e)
+    {
+        var selected = e.Index == _tabs.SelectedIndex;
+        using var backgroundBrush = new SolidBrush(selected ? SurfaceAlt : Surface);
+        using var textBrush = new SolidBrush(selected ? Color.White : Muted);
+
+        e.Graphics.FillRectangle(backgroundBrush, e.Bounds);
+        var text = _tabs.TabPages[e.Index].Text;
+        TextRenderer.DrawText(
+            e.Graphics,
+            text,
+            new Font("Segoe UI", 9.5F, selected ? FontStyle.Bold : FontStyle.Regular),
+            e.Bounds,
+            textBrush.Color,
+            TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+    }
+
     private void OnMainFormKeyDown(object? sender, KeyEventArgs e)
     {
         if (e.Control && e.KeyCode == Keys.Enter)
         {
             RunDemoValueCheck();
+            e.SuppressKeyPress = true;
+            return;
+        }
+
+        if (e.Control && e.KeyCode == Keys.B)
+        {
+            _tabs.SelectedIndex = 1;
             e.SuppressKeyPress = true;
             return;
         }
@@ -439,13 +509,6 @@ public sealed class MainForm : Form
         if (e.Control && e.KeyCode == Keys.L)
         {
             ClearActivity();
-            e.SuppressKeyPress = true;
-            return;
-        }
-
-        if (e.KeyCode == Keys.F1)
-        {
-            ShowNextSteps();
             e.SuppressKeyPress = true;
         }
     }
