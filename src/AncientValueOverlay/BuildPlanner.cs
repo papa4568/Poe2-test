@@ -21,7 +21,8 @@ public sealed record GearDefinition(
     string Name,
     string WeaponType,
     string? GrantedSkill,
-    string Effect);
+    string Effect,
+    int Spirit = 0);
 
 public sealed record BuildEvaluation(
     ClassDefinition Class,
@@ -157,7 +158,7 @@ public static class BuildCatalog
         new("Attuned Wand", "Wand", "Mana Drain", "Grants the inherent Mana Drain skill."),
         new("Chiming Staff", "Staff", "Sigil of Power", "Grants the inherent Sigil of Power skill."),
         new("Sanctified Staff", "Staff", "Consecrate", "Grants the inherent Consecrate skill."),
-        new("Wrath Sceptre", "Sceptre", "Fulmination", "Grants Fulmination and represents how sceptres can also reshape Spirit/reservation planning.")
+        new("Wrath Sceptre", "Sceptre", "Fulmination", "Grants Fulmination and provides the base Spirit associated with this sceptre type.", 100)
     ];
 
     public static ClassDefinition FindClass(string name) =>
@@ -263,7 +264,9 @@ public sealed class BuildPlanner
         {
             $"Set 1 · {first.Name}: {first.Effect}",
             $"Set 2 · {second.Name}: {second.Effect}",
-            "Supports belong to the skill rather than normal equipment sockets; plan up to five support sockets per skill."
+            "Supports belong to the skill rather than normal equipment sockets; plan up to five support sockets per skill.",
+            first.Spirit > 0 ? $"Set 1 provides {first.Spirit} Spirit." : "Set 1 provides no intrinsic Spirit in this catalog.",
+            second.Spirit > 0 ? $"Set 2 provides {second.Spirit} Spirit." : "Set 2 provides no intrinsic Spirit in this catalog."
         };
 
         var grantedSkills = new[] { first.GrantedSkill, second.GrantedSkill }

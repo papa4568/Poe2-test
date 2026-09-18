@@ -1,6 +1,31 @@
 # Ancient Value Overlay
 
-A Windows desktop PoE2 reward-value helper and build interaction lab currently in beta.
+A Windows desktop PoE2 reward-value helper, build lab, and skill-change simulator currently in beta.
+
+## Beta 0.4 — Skill change simulator
+
+The new **Skill Simulator** extends the Build Lab from compatibility checks into visible gear/support behavior changes.
+
+- Normalized damage, speed, area, cost, projectile-count, and Spirit indexes.
+- Two independently configured weapon sets with automatic compatible-set selection.
+- Illustrative gear-roll profiles for heavy, swift, caster, Spirit, and hybrid setups.
+- Current support-gem examples using modern naming and behavior:
+  - Rapid Attacks I
+  - Rapid Casting I
+  - Multishot I
+  - Magnified Area I
+  - Concentrated Area
+  - Elemental Armament I
+  - Controlled Destruction
+  - Elemental Focus
+- Support socket cap handling from 2–5 sockets.
+- Incompatible supports are rejected with a reason instead of silently applying.
+- Support effects can change projectile count, area, cost, action speed, critical-hit availability, and elemental ailment availability.
+- Wrath Sceptre exposes its intrinsic 100 Spirit in the model.
+- The simulator explicitly uses normalized comparison indexes and does not claim exact in-game DPS.
+
+The beta 0.4 model is based on current PoE2 0.5.x mechanics, while keeping the data slice intentionally small enough to test and iterate safely.
+
 
 ## Beta 0.3 — Build / Classes patch
 

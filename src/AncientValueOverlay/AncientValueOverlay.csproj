@@ -8,7 +8,7 @@
     <AssemblyName>AncientValueOverlay</AssemblyName>
     <AssemblyTitle>Ancient Value Overlay</AssemblyTitle>
     <Product>Ancient Value Overlay</Product>
-    <Description>PoE2 reward value helper and build interaction lab beta.</Description>
-    <Version>0.3.0-beta.1</Version>
+    <Description>PoE2 reward value helper, build lab and skill change simulator beta.</Description>
+    <Version>0.4.0-beta.1</Version>
   </PropertyGroup>
 </Project>
